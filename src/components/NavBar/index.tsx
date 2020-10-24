@@ -35,7 +35,6 @@ const NavBar = () => {
   const handleLogout = () => {
     removeCookie('token')
     localStorage.removeItem('userLogin')
-
     dispatch(logoutUser())
   }
 
@@ -86,10 +85,12 @@ const NavBar = () => {
                 Account
               </Menu.Item>
             </Link>
-            <Menu.Item onClick={handleLogout} header>
-              <Icon name="sign out" size="large" />
-              Logout
-            </Menu.Item>
+            <Link to="/">
+              <Menu.Item onClick={handleLogout} header>
+                <Icon name="sign out" size="large" />
+                Logout
+              </Menu.Item>
+            </Link>
           </Menu.Menu>
         </>
       ) : (
