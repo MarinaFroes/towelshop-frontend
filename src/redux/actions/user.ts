@@ -50,7 +50,7 @@ import {
 } from '../../types'
 
 // const baseUrl = 'http://localhost:3000'
-const baseUrl = 'https://towelshopservice.herokuapp.com/'
+const baseUrl = 'https://towelshopservice.herokuapp.com'
 
 // USER UPDATE ACTIONS
 const userUpdateRequestAction = (): UserUpdateActions => {

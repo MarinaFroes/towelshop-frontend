@@ -48,7 +48,7 @@ const Login = () => {
   }
 
   // const baseUrl = 'http://localhost:3000'
-  const baseUrl = 'https://towelshopservice.herokuapp.com/'
+  const baseUrl = 'https://towelshopservice.herokuapp.com'
 
   const responseGoogle = async (response: any) => {
     if (response && response.tokenObj) {

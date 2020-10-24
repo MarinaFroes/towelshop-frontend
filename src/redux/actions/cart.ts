@@ -11,7 +11,7 @@ import {
 } from '../../types'
 
 // const baseUrl = 'http://localhost:3000'
-const baseUrl = 'https://towelshopservice.herokuapp.com/'
+const baseUrl = 'https://towelshopservice.herokuapp.com'
 
 // CART ADD ITEM ACTION CREATORS
 const cartAddItemRequest = (): CartActions => {
