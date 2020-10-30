@@ -1,25 +1,34 @@
 import {
-  CartState,
   CartActions,
-  CART_REMOVE_ITEM,
+  CartState,
+  CART_DETAILS_REQUEST,
+  CART_DETAILS_SUCCESS,
+  CART_DETAILS_FAILURE,
+  CART_REMOVE_ITEM_REQUEST,
+  CART_REMOVE_ITEM_SUCCESS,
+  CART_REMOVE_ITEM_FAILURE,
+  CART_RESET_SUCCESS,
   CART_ADD_ITEM_REQUEST,
   CART_ADD_ITEM_SUCCESS,
   CART_ADD_ITEM_FAILURE,
+  USER_LOGOUT_SUCCESS,
 } from '../../types'
 
-const cartStateInit = {
-  inCart: [],
+const cartInit = {
+  inCart: null,
   error: null,
   loading: false,
   success: false,
 }
 
-export default function cartReducer(
-  state: CartState = cartStateInit,
+export function cartReducer(
+  state: CartState = cartInit,
   action: CartActions
 ): CartState {
   switch (action.type) {
     case CART_ADD_ITEM_REQUEST:
+    case CART_REMOVE_ITEM_REQUEST:
+    case CART_DETAILS_REQUEST:
       return {
         ...state,
         loading: true,
@@ -27,47 +36,50 @@ export default function cartReducer(
         success: false,
       }
     case CART_ADD_ITEM_SUCCESS:
-      const item = action.payload
-      const existItem = state.inCart.find((i) => i.productId === item.productId)
+    case CART_REMOVE_ITEM_SUCCESS:
+      const { cart: updatedCart } = action.payload
 
-      if (existItem) {
-        item.qty += existItem.qty
-
-        return {
-          inCart: state.inCart.map((i) =>
-            i.productId === existItem.productId ? item : i
-          ),
-          loading: false,
-          error: null,
-          success: true,
-        }
-      } else {
-        return {
-          inCart: [...state.inCart, item],
-          loading: false,
-          error: null,
-          success: true,
-        }
-      }
-
-    case CART_REMOVE_ITEM:
       return {
         ...state,
-        inCart: state.inCart.filter((i) => i.productId !== action.productId),
+        inCart: updatedCart,
         loading: false,
         error: null,
         success: true,
       }
-    case CART_ADD_ITEM_FAILURE:
-      const { error } = action
+    case CART_DETAILS_SUCCESS:
+      const { cart: cartDetails } = action.payload
 
+      return {
+        ...state,
+        inCart: cartDetails,
+        loading: false,
+        error: null,
+      }
+    case CART_DETAILS_FAILURE:
+    case CART_ADD_ITEM_FAILURE:
+    case CART_REMOVE_ITEM_FAILURE:
+      const { error } = action
       return {
         ...state,
         error,
         loading: false,
         success: false,
       }
-
+    case CART_RESET_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        success: false,
+      }
+    case USER_LOGOUT_SUCCESS:
+      return {
+        ...state,
+        error: null,
+        loading: false,
+        success: false,
+        inCart: null,
+      }
     default:
       return state
   }

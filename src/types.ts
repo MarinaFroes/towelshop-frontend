@@ -62,9 +62,21 @@ export type QueryItems = {
   category: string | string[] | null
 }
 
+type CartItemPopulated = {
+  _id: string
+  quantity: number
+  product: Product
+}
+
+export type Cart = {
+  _id: string
+  user: string
+  products: CartItemPopulated[]
+}
+
 // PROPS TYPES
 export type CartInfoProps = {
-  cartProducts: CartItemType[]
+  cartProducts: CartItemPopulated[] | null
   handleCheckout: () => void
 }
 
@@ -73,7 +85,7 @@ export type ProductRowProps = {
 }
 
 export type CartItemProps = {
-  cartProducts: CartItemType[]
+  cartProducts: CartItemPopulated[] | null
   user: User | null
   handleRemoveFromCart: (productId: string) => void
 }
@@ -184,10 +196,18 @@ export const USER_UNBAN_FAILURE = 'USER_UNBAN_FAILURE'
 export const USER_BAN_UNBAN_RESET = 'USER_BAN_UNBAN_RESET'
 
 // CART ACTION TYPES
+export const CART_DETAILS_REQUEST = 'CART_DETAILS_REQUEST'
+export const CART_DETAILS_SUCCESS = 'CART_DETAILS_SUCCESS'
+export const CART_DETAILS_FAILURE = 'CART_DETAILS_FAILURE'
+
 export const CART_ADD_ITEM_REQUEST = 'CART_ADD_ITEM_REQUEST'
 export const CART_ADD_ITEM_SUCCESS = 'CART_ADD_ITEM_SUCCESS'
 export const CART_ADD_ITEM_FAILURE = 'CART_ADD_ITEM_FAILURE'
-export const CART_REMOVE_ITEM = 'CART_REMOVE_ITEM'
+
+export const CART_REMOVE_ITEM_REQUEST = 'CART_REMOVE_ITEM_REQUEST'
+export const CART_REMOVE_ITEM_SUCCESS = 'CART_REMOVE_ITEM_SUCCESS'
+export const CART_REMOVE_ITEM_FAILURE = 'CART_REMOVE_ITEM_FAILURE'
+export const CART_RESET_SUCCESS = 'CART_RESET_SUCCESS'
 
 // PRODUCT LIST ACTION CREATOR TYPES
 export type ProductListRequestAction = {
@@ -561,6 +581,22 @@ export type UserActions =
   | UserDeleteActions
 
 // CART ADD AND REMOVE ITEM ACTION CREATOR TYPES
+export type CartDetailsRequestAction = {
+  type: typeof CART_DETAILS_REQUEST
+}
+
+export type CartDetailsSuccessAction = {
+  type: typeof CART_DETAILS_SUCCESS
+  payload: {
+    cart: Cart
+  }
+}
+
+export type CartDetailsFailureAction = {
+  type: typeof CART_DETAILS_FAILURE
+  error: string
+}
+
 export type CartAddItemRequestAction = {
   type: typeof CART_ADD_ITEM_REQUEST
 }
@@ -568,12 +604,7 @@ export type CartAddItemRequestAction = {
 export type CartAddItemSuccessAction = {
   type: typeof CART_ADD_ITEM_SUCCESS
   payload: {
-    productId: string
-    name: string
-    mediaUrl: string
-    price: number
-    countInStock: number
-    qty: number
+    cart: Cart
   }
 }
 
@@ -582,16 +613,38 @@ export type CartAddItemFailureAction = {
   error: string
 }
 
-export type CartRemoveItemAction = {
-  type: typeof CART_REMOVE_ITEM
-  productId: string
+export type CartRemoveItemRequestAction = {
+  type: typeof CART_REMOVE_ITEM_REQUEST
+}
+
+export type CartRemoveItemSuccessAction = {
+  type: typeof CART_REMOVE_ITEM_SUCCESS
+  payload: {
+    cart: Cart
+  }
+}
+
+export type CartRemoveItemFailureAction = {
+  type: typeof CART_REMOVE_ITEM_FAILURE
+  error: string
+}
+
+export type CartResetSuccessAction = {
+  type: typeof CART_RESET_SUCCESS
 }
 
 export type CartActions =
+  | CartDetailsRequestAction
+  | CartDetailsSuccessAction
+  | CartDetailsFailureAction
   | CartAddItemRequestAction
   | CartAddItemSuccessAction
   | CartAddItemFailureAction
-  | CartRemoveItemAction
+  | CartRemoveItemRequestAction
+  | CartRemoveItemSuccessAction
+  | CartRemoveItemFailureAction
+  | CartResetSuccessAction
+  | LogoutSuccessAction
 
 // PRODUCT STATE TYPES
 export type ProductCreateState = {
@@ -691,19 +744,28 @@ export type UserState = {
 }
 
 // CART STATE TYPES
-export type CartItemType = {
-  productId: string
-  name: string
-  mediaUrl: string
-  price: number
-  countInStock: number
-  qty: number
-}
+// export type CartDetailsState = {
+//   loading: boolean
+//   error: null | string
+//   inCart: Cart | null
+// }
+
+// export type CartAddItemState = {
+//   loading: boolean
+//   error: null | string
+//   success: boolean
+// }
+
+// export type CartRemoveItemState = {
+//   loading: boolean
+//   error: null | string
+//   success: boolean
+// }
 
 export type CartState = {
-  inCart: CartItemType[]
-  error: null | string
   loading: boolean
+  error: null | string
+  inCart: Cart | null
   success: boolean
 }
 
@@ -722,4 +784,7 @@ export type AppState = {
   userBanUnban: UserBanUnbanState
   userDetails: UserDetailsState
   cart: CartState
+  // cartDetails: CartDetailsState
+  // cartAddItem: CartAddItemState
+  // cartRemoveItem: CartRemoveItemState
 }

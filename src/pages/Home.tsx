@@ -37,19 +37,21 @@ const Home = () => {
         h1Content="Don't panic. Buy a towel."
         h2Content="The most useful thing an interstellar hitchhiker can have"
       />
-      {loading ? (
-        <LoaderComponent />
-      ) : error ? (
-        <Message error header="Oops!" content={error} />
-      ) : (
-        products && (
-          <Container style={{ marginTop: '2em' }}>
-            <Search />
-            <ProductCard products={products} />
-            <Pagination totalPages={totalPages} />
-          </Container>
-        )
-      )}
+      <Container style={{ marginTop: '2em' }}>
+        {loading ? (
+          <LoaderComponent />
+        ) : error ? (
+          <Message error header="Oops!" content={error} />
+        ) : (
+          products && (
+            <>
+              <Search />
+              <ProductCard products={products} />
+              <Pagination totalPages={totalPages} />
+            </>
+          )
+        )}
+      </Container>
     </>
   )
 }

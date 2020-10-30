@@ -34,7 +34,6 @@ const ProductList = () => {
       <Table compact celled definition>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Product id</Table.HeaderCell>
             <Table.HeaderCell>Media</Table.HeaderCell>
             <Table.HeaderCell>Name</Table.HeaderCell>
             <Table.HeaderCell>Categories</Table.HeaderCell>

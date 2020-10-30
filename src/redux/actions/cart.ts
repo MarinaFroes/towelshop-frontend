@@ -1,17 +1,80 @@
 import { Dispatch } from 'redux'
 
 import {
-  Product,
+  Cart,
+  User,
   CartActions,
   AsyncAction,
-  CART_REMOVE_ITEM,
+  CART_DETAILS_REQUEST,
+  CART_DETAILS_SUCCESS,
+  CART_DETAILS_FAILURE,
+  CART_REMOVE_ITEM_REQUEST,
+  CART_REMOVE_ITEM_SUCCESS,
+  CART_REMOVE_ITEM_FAILURE,
+  CART_RESET_SUCCESS,
   CART_ADD_ITEM_REQUEST,
   CART_ADD_ITEM_SUCCESS,
   CART_ADD_ITEM_FAILURE,
 } from '../../types'
 
-// const baseUrl = 'http://localhost:3000'
-const baseUrl = 'https://towelshopservice.herokuapp.com'
+const baseUrl = 'http://localhost:3000'
+
+// CART DETAILS ACTION CREATORS
+const cartDetailsRequest = (): CartActions => {
+  return {
+    type: CART_DETAILS_REQUEST,
+  }
+}
+
+const cartDetailsSuccess = (cart: Cart): CartActions => {
+  return {
+    type: CART_DETAILS_SUCCESS,
+    payload: {
+      cart,
+    },
+  }
+}
+
+const cartDetailsFailure = (error: string): CartActions => {
+  return {
+    type: CART_DETAILS_FAILURE,
+    error,
+  }
+}
+
+export const getCart = (): AsyncAction => async (
+  dispatch: Dispatch,
+  getState
+) => {
+  try {
+    dispatch(cartDetailsRequest())
+
+    const { userLogin } = getState()
+
+    if (!userLogin || !userLogin.authedUser) {
+      throw new Error('401: Login to continue')
+    }
+
+    const { token } = userLogin.authedUser as User
+
+    const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    if (response.ok) {
+      let cart = await response.json()
+
+      dispatch(cartDetailsSuccess(cart))
+    } else {
+      throw new Error(`${response.status}: Could not fetch cart`)
+    }
+  } catch (err) {
+    dispatch(cartDetailsFailure(err.message))
+  }
+}
 
 // CART ADD ITEM ACTION CREATORS
 const cartAddItemRequest = (): CartActions => {
@@ -20,18 +83,11 @@ const cartAddItemRequest = (): CartActions => {
   }
 }
 
-const cartAddItemSuccess = (productData: Product, qty: number): CartActions => {
-  const { _id, name, mediaUrl, price, countInStock } = productData
-
+const cartAddItemSuccess = (cart: Cart): CartActions => {
   return {
     type: CART_ADD_ITEM_SUCCESS,
     payload: {
-      productId: _id,
-      name,
-      mediaUrl: mediaUrl || '',
-      price,
-      countInStock,
-      qty,
+      cart,
     },
   }
 }
@@ -50,14 +106,27 @@ export const addToCart = (
   try {
     dispatch(cartAddItemRequest())
 
-    const response: any = await fetch(`${baseUrl}/api/v1/products/${productId}`)
+    const { userLogin } = getState()
+
+    if (!userLogin || !userLogin.authedUser) {
+      throw new Error('401: Login to continue')
+    }
+
+    const { token } = userLogin.authedUser as User
+
+    const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ productId, qty }),
+    })
 
     if (response.ok) {
-      let productData: Product = await response.json()
+      const cart = await response.json()
 
-      dispatch(cartAddItemSuccess(productData, qty))
-
-      localStorage.setItem('cartItems', JSON.stringify(getState().cart.inCart))
+      dispatch(cartAddItemSuccess(cart))
     } else {
       throw new Error(`${response.status}: Could not fetch product`)
     }
@@ -67,18 +136,66 @@ export const addToCart = (
 }
 
 // CART REMOVE ITEM ACTION CREATORS
-const cartRemoveItemAction = (productId: string): CartActions => {
+const cartRemoveItemRequest = (): CartActions => {
   return {
-    type: CART_REMOVE_ITEM,
-    productId,
+    type: CART_REMOVE_ITEM_REQUEST,
   }
 }
 
-export const removeFromCart = (productId: string): AsyncAction => (
+const cartRemoveItemSuccess = (cart: Cart): CartActions => {
+  return {
+    type: CART_REMOVE_ITEM_SUCCESS,
+    payload: {
+      cart,
+    },
+  }
+}
+
+const cartRemoveItemFailure = (error: string): CartActions => {
+  return {
+    type: CART_REMOVE_ITEM_FAILURE,
+    error,
+  }
+}
+
+export const cartResetSuccess = (): CartActions => {
+  return {
+    type: CART_RESET_SUCCESS,
+  }
+}
+
+export const removeFromCart = (productId: string): AsyncAction => async (
   dispatch: Dispatch,
   getState
 ) => {
-  dispatch(cartRemoveItemAction(productId))
+  try {
+    dispatch(cartRemoveItemRequest())
 
-  localStorage.setItem('cartItems', JSON.stringify(getState().cart.inCart))
+    const { userLogin } = getState()
+
+    if (!userLogin || !userLogin.authedUser) {
+      throw new Error('401: Login to continue')
+    }
+
+    const { token } = userLogin.authedUser as User
+
+    const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ productId }),
+    })
+
+    if (response.ok) {
+      const cart = await response.json()
+
+      dispatch(cartRemoveItemSuccess(cart))
+    } else {
+      throw new Error(`${response.status}: Could not remove product`)
+    }
+  } catch (err) {
+    dispatch(cartRemoveItemFailure(err.message))
+  }
 }

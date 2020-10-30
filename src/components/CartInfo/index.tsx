@@ -10,9 +10,9 @@ const CartInfo = ({ cartProducts, handleCheckout }: CartInfoProps) => {
 
   useEffect(() => {
     if (cartProducts) {
-      const items = cartProducts.reduce((acc, item) => acc + item.qty, 0)
+      const items = cartProducts.reduce((acc, item) => acc + item.quantity, 0)
       const amount = cartProducts.reduce(
-        (acc, item) => acc + item.qty * item.price,
+        (acc, item) => acc + item.quantity * item.product.price,
         0
       )
 

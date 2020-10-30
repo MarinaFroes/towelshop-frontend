@@ -8,11 +8,12 @@ import {
   Segment,
   Container,
 } from 'semantic-ui-react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import GoogleLogin from 'react-google-login'
 
 import { AppState } from '../types'
 import { loginUser } from '../redux/actions/user'
+import { getCart } from '../redux/actions/cart'
 
 const INITIAL_USER = {
   email: '',
@@ -23,6 +24,7 @@ const Login = () => {
   const [loginInfo, setLoginInfo] = useState(INITIAL_USER)
   const [disabled, setDisabled] = useState(true)
 
+  const history = useHistory()
   const dispatch = useDispatch()
 
   const { loading } = useSelector((state: AppState) => state.userLogin)
@@ -38,6 +40,13 @@ const Login = () => {
     isLoginInfo ? setDisabled(false) : setDisabled(true)
   }, [loginInfo, dispatch])
 
+  useEffect(() => {
+    if (authedUser) {
+      dispatch(getCart())
+      history.push('/account')
+    }
+  }, [dispatch, authedUser, history])
+
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const { name, value } = event.target
 
@@ -47,8 +56,7 @@ const Login = () => {
     }))
   }
 
-  // const baseUrl = 'http://localhost:3000'
-  const baseUrl = 'https://towelshopservice.herokuapp.com'
+  const baseUrl = 'http://localhost:3000'
 
   const responseGoogle = async (response: any) => {
     if (response && response.tokenObj) {
@@ -75,10 +83,6 @@ const Login = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     dispatch(loginUser(loginInfo))
-  }
-
-  if (authedUser) {
-    return <Redirect to="/account" />
   }
 
   return (

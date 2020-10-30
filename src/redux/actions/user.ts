@@ -49,8 +49,7 @@ import {
   USER_LOGOUT_FAILURE,
 } from '../../types'
 
-// const baseUrl = 'http://localhost:3000'
-const baseUrl = 'https://towelshopservice.herokuapp.com'
+const baseUrl = 'http://localhost:3000'
 
 // USER UPDATE ACTIONS
 const userUpdateRequestAction = (): UserUpdateActions => {
@@ -449,7 +448,7 @@ export const signupUser = (user: NewUser): AsyncAction => async (
 ) => {
   try {
     dispatch(userSignupRequestAction())
-    console.log('USER IN SIGNUP USER', user)
+
     const response: any = await fetch(`${baseUrl}/api/v1/users/signup`, {
       method: 'POST',
       headers: {
@@ -460,8 +459,6 @@ export const signupUser = (user: NewUser): AsyncAction => async (
 
     if (response.ok) {
       const userData: User = await response.json()
-
-      console.log('CREATED USER', userData)
 
       dispatch(userSignupSuccessAction(userData))
       dispatch(loginSuccessAction(userData))

@@ -12,7 +12,7 @@ const OrderHistory = () => {
 
   return (
     <>
-      {inCart.length > 0 && (
+      {inCart && inCart.products.length > 0 && (
         <Message warning>
           <Header as="h4">
             You still have products in your cart. Finish your order.

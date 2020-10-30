@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useHistory } from 'react-router-dom'
 import { Menu, Icon } from 'semantic-ui-react'
 import { useCookies } from 'react-cookie'
 
@@ -11,6 +11,7 @@ const NavBar = () => {
   const [isAdmin, setIsAdmin] = useState(false)
   const location = useLocation()
   const dispatch = useDispatch()
+  const history = useHistory()
   const [cookies, setCookie, removeCookie] = useCookies(['token'])
 
   const { authedUser } = useSelector((state: AppState) => state.userLogin)
@@ -35,7 +36,9 @@ const NavBar = () => {
   const handleLogout = () => {
     removeCookie('token')
     localStorage.removeItem('userLogin')
+
     dispatch(logoutUser())
+    history.push('/')
   }
 
   return (
@@ -56,7 +59,7 @@ const NavBar = () => {
 
       <Link to="/cart">
         <Menu.Item header active={isActive('/cart')}>
-          {inCart.length > 0 ? (
+          {inCart && inCart.products.length > 0 ? (
             <Icon.Group size="large">
               <Icon name="cart" />
               <Icon corner="top right" name="circle thin" color="red" />
@@ -85,12 +88,10 @@ const NavBar = () => {
                 Account
               </Menu.Item>
             </Link>
-            <Link to="/">
-              <Menu.Item onClick={handleLogout} header>
-                <Icon name="sign out" size="large" />
-                Logout
-              </Menu.Item>
-            </Link>
+            <Menu.Item onClick={handleLogout} header>
+              <Icon name="sign out" size="large" />
+              Logout
+            </Menu.Item>
           </Menu.Menu>
         </>
       ) : (

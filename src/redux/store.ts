@@ -8,8 +8,6 @@ import createRootReducer from './reducers'
 
 const userLoginFromStorage = localStorage.getItem('userLogin') || null
 
-const cartFromStorage = localStorage.getItem('cartItems') || null
-
 const initState: AppState = {
   productDelete: {
     loading: false,
@@ -40,11 +38,26 @@ const initState: AppState = {
     success: false,
   },
   cart: {
-    inCart: cartFromStorage ? JSON.parse(cartFromStorage) : [],
+    inCart: null,
     error: null,
     loading: false,
     success: false,
   },
+  // cartDetails: {
+  //   inCart: null,
+  //   error: null,
+  //   loading: false,
+  // },
+  // cartAddItem: {
+  //   error: null,
+  //   loading: false,
+  //   success: false,
+  // },
+  // cartRemoveItem: {
+  //   error: null,
+  //   loading: false,
+  //   success: false,
+  // },
   userLogin: {
     authedUser: userLoginFromStorage ? JSON.parse(userLoginFromStorage) : null,
     error: null,

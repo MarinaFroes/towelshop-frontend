@@ -4,7 +4,7 @@ import { Input } from 'semantic-ui-react'
 import { useHistory } from 'react-router-dom'
 
 import { ProductProps, AppState } from '../../types'
-import { addToCart } from '../../redux/actions/cart'
+import { addToCart, cartResetSuccess, getCart } from '../../redux/actions/cart'
 
 const AddProductToCart = ({ product }: ProductProps) => {
   const [quantity, setQuantity] = useState(1)
@@ -17,6 +17,8 @@ const AddProductToCart = ({ product }: ProductProps) => {
 
   useEffect(() => {
     if (success) {
+      dispatch(getCart())
+      dispatch(cartResetSuccess())
       history.push('/cart')
     }
   }, [dispatch, success, history])
@@ -50,9 +52,9 @@ const AddProductToCart = ({ product }: ProductProps) => {
             }
           : {
               color: 'blue',
-              content: 'Sign up to purchase',
+              content: 'Login to purchase',
               icon: 'sign in',
-              onClick: () => history.push('/signup'),
+              onClick: () => history.push('/login'),
             }
       }
     />

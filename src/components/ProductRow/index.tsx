@@ -12,7 +12,6 @@ const ProductRow = ({ product }: ProductRowProps) => {
 
   return (
     <Table.Row>
-      <Table.Cell textAlign="center">{product._id}</Table.Cell>
       <Table.Cell textAlign="center">
         <Image src={product.mediaUrl} size="tiny" />
       </Table.Cell>

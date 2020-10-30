@@ -1,19 +1,35 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Message } from 'semantic-ui-react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import CartProducts from '../components/CartProducts'
 import CartInfo from '../components/CartInfo'
-import { removeFromCart } from '../redux/actions/cart'
+import LoaderComponent from '../components/LoaderComponent'
+import {
+  cartResetSuccess,
+  getCart,
+  removeFromCart,
+} from '../redux/actions/cart'
 import { AppState } from '../types'
 
 const CartPage = () => {
   const [errorMessage, setErrorMessage] = useState('')
   const dispatch = useDispatch()
 
-  const { inCart: cartProducts } = useSelector((state: AppState) => state.cart)
+  const { inCart } = useSelector((state: AppState) => state.cart)
+
+  const { success } = useSelector((state: AppState) => state.cart)
+
+  const { loading } = useSelector((state: AppState) => state.cart)
 
   const { authedUser } = useSelector((state: AppState) => state.userLogin)
+
+  useEffect(() => {
+    if (!inCart || success) {
+      dispatch(getCart())
+      dispatch(cartResetSuccess())
+    }
+  }, [inCart, dispatch, success])
 
   const handleRemoveFromCart = (productId: string) => {
     if (productId) {
@@ -26,15 +42,23 @@ const CartPage = () => {
   return (
     <Container text style={{ margin: '2em' }}>
       {errorMessage && <Message error header="Oops!" content={errorMessage} />}
-      <CartProducts
-        handleRemoveFromCart={handleRemoveFromCart}
-        user={authedUser}
-        cartProducts={cartProducts}
-      />
-      <CartInfo
-        cartProducts={cartProducts}
-        handleCheckout={() => console.log('checkout')}
-      />
+      {loading ? (
+        <LoaderComponent />
+      ) : (
+        (inCart || !authedUser) && (
+          <>
+            <CartProducts
+              handleRemoveFromCart={handleRemoveFromCart}
+              user={authedUser}
+              cartProducts={inCart ? inCart.products : null}
+            />
+            <CartInfo
+              cartProducts={inCart ? inCart.products : null}
+              handleCheckout={() => console.log('checkout')}
+            />
+          </>
+        )
+      )}
     </Container>
   )
 }
