@@ -11,7 +11,6 @@ import {
 import categoriesOptions from '../../util/categoriesOptions'
 import variantOptions from '../../util/variantOptions'
 
-// FIXME: REFACTOR THIS ENTIRE COMPONENT
 const Search = () => {
   const [name, setName] = useState('')
   const [size, setSize] = useState<string | number | undefined>('')
@@ -48,7 +47,6 @@ const Search = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // FIXME: REFACTOR THIS HORRIBLE CODE
     let path = '?'
 
     if (name) {
