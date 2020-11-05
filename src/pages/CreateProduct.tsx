@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Redirect } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import {
   Form,
   Input,
@@ -11,97 +11,95 @@ import {
   Header,
   Icon,
   Container,
-} from 'semantic-ui-react'
+} from "semantic-ui-react";
 
 import {
   createProduct,
   productCreateFailure,
   productCreateReset,
-} from '../redux/actions/products'
-import { AppState, NewProduct } from '../types'
+} from "../redux/actions/products";
+import { AppState, NewProduct } from "../types";
 
 const INITIAL_PRODUCT = {
-  name: '',
-  description: '',
-  categories: '',
+  name: "",
+  description: "",
+  categories: "",
   countInStock: 0,
-  variant: '',
-  size: '',
+  variant: "",
+  size: "",
   price: 0.0,
-}
+};
 
 const CreateProduct = () => {
-  const [product, setProduct] = useState(INITIAL_PRODUCT)
-  const [disabled, setDisabled] = useState(true)
-  const [image, setImage] = useState<null | File>(null)
-  const [mediaPreview, setMediaPreview] = useState('')
+  const [product, setProduct] = useState(INITIAL_PRODUCT);
+  const [disabled, setDisabled] = useState(true);
+  const [image, setImage] = useState<null | File>(null);
+  const [mediaPreview, setMediaPreview] = useState("");
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const { loading } = useSelector((state: AppState) => state.productCreate)
+  const { loading, success, error } = useSelector(
+    (state: AppState) => state.productCreate
+  );
 
-  const { success } = useSelector((state: AppState) => state.productCreate)
-
-  const { error } = useSelector((state: AppState) => state.productCreate)
-
-  const { authedUser } = useSelector((state: AppState) => state.userLogin)
+  const { authedUser } = useSelector((state: AppState) => state.userLogin);
 
   useEffect(() => {
-    const isProduct = Object.values(product).every((el) => Boolean(el))
-    isProduct ? setDisabled(false) : setDisabled(true)
+    const isProduct = Object.values(product).every((el) => Boolean(el));
+    isProduct ? setDisabled(false) : setDisabled(true);
 
     if (success) {
-      dispatch(productCreateReset())
-      setProduct(INITIAL_PRODUCT)
+      dispatch(productCreateReset());
+      setProduct(INITIAL_PRODUCT);
     }
-  }, [dispatch, product, success])
+  }, [dispatch, product, success]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = e.target
+    const { value, name } = e.target;
     setProduct((prevState) => ({
       ...prevState,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setImage(e.target.files[0])
-      setMediaPreview(window.URL.createObjectURL(e.target.files[0]))
+      setImage(e.target.files[0]);
+      setMediaPreview(window.URL.createObjectURL(e.target.files[0]));
     }
-  }
+  };
 
   const handleImageUpload = async () => {
     if (image) {
-      const data = new FormData()
-      data.append('file', image)
-      data.append('upload_preset', 'reactreserve')
+      const data = new FormData();
+      data.append("file", image);
+      data.append("upload_preset", "reactreserve");
 
       try {
         const response = await fetch(
-          'https://api.cloudinary.com/v1_1/dglvomnoi/image/upload',
+          "https://api.cloudinary.com/v1_1/dglvomnoi/image/upload",
           {
-            method: 'POST',
+            method: "POST",
             body: data,
           }
-        )
+        );
 
-        const file = await response.json()
-        const mediaUrl = file.secure_url
+        const file = await response.json();
+        const mediaUrl = file.secure_url;
 
-        return mediaUrl
+        return mediaUrl;
       } catch (err) {
-        console.error(err)
-        dispatch(productCreateFailure('Could not create product. No image.'))
+        console.error(err);
+        dispatch(productCreateFailure("Could not create product. No image."));
       }
     }
-  }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
-      e.preventDefault()
+      e.preventDefault();
 
-      const mediaUrl = await handleImageUpload()
+      const mediaUrl = await handleImageUpload();
 
       if (mediaUrl) {
         const {
@@ -112,39 +110,39 @@ const CreateProduct = () => {
           variant,
           size,
           countInStock,
-        } = product
+        } = product;
         const payload: NewProduct = {
           name,
           price: Number(price),
-          categories: categories.split(','),
+          categories: categories.split(","),
           variant,
           size,
           countInStock,
           description,
           mediaUrl,
-        }
+        };
 
-        dispatch(createProduct(payload))
+        dispatch(createProduct(payload));
 
         if (success) {
-          setProduct(INITIAL_PRODUCT)
-          setMediaPreview('')
+          setProduct(INITIAL_PRODUCT);
+          setMediaPreview("");
         }
       } else {
-        dispatch(productCreateFailure('Could not create product. No image.'))
+        dispatch(productCreateFailure("Could not create product. No image."));
       }
     } catch (err) {
-      console.error(err)
-      dispatch(productCreateFailure(err))
+      console.error(err);
+      dispatch(productCreateFailure(err));
     }
-  }
+  };
 
-  if (!authedUser || authedUser.role !== 'admin') {
-    return <Redirect to="/" />
+  if (!authedUser || authedUser.role !== "admin") {
+    return <Redirect to="/" />;
   }
 
   return (
-    <Container style={{ margin: '2em' }}>
+    <Container style={{ margin: "2em" }}>
       <Header as="h2" block>
         <Icon name="edit" color="blue" />
         Create new product
@@ -251,7 +249,7 @@ const CreateProduct = () => {
         />
       </Form>
     </Container>
-  )
-}
+  );
+};
 
-export default CreateProduct
+export default CreateProduct;

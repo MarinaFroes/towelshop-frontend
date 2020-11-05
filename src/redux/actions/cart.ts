@@ -1,4 +1,4 @@
-import { Dispatch } from 'redux'
+import { Dispatch } from "redux";
 
 import {
   Cart,
@@ -15,16 +15,15 @@ import {
   CART_ADD_ITEM_REQUEST,
   CART_ADD_ITEM_SUCCESS,
   CART_ADD_ITEM_FAILURE,
-} from '../../types'
-
-const baseUrl = 'http://localhost:3000'
+} from "../../types";
+import baseUrl from "../../util/baseUrl";
 
 // CART DETAILS ACTION CREATORS
 const cartDetailsRequest = (): CartActions => {
   return {
     type: CART_DETAILS_REQUEST,
-  }
-}
+  };
+};
 
 const cartDetailsSuccess = (cart: Cart): CartActions => {
   return {
@@ -32,56 +31,56 @@ const cartDetailsSuccess = (cart: Cart): CartActions => {
     payload: {
       cart,
     },
-  }
-}
+  };
+};
 
 const cartDetailsFailure = (error: string): CartActions => {
   return {
     type: CART_DETAILS_FAILURE,
     error,
-  }
-}
+  };
+};
 
 export const getCart = (): AsyncAction => async (
   dispatch: Dispatch,
   getState
 ) => {
   try {
-    dispatch(cartDetailsRequest())
+    dispatch(cartDetailsRequest());
 
-    const { userLogin } = getState()
+    const { userLogin } = getState();
 
     if (!userLogin || !userLogin.authedUser) {
-      throw new Error('401: Login to continue')
+      throw new Error("401: Login to continue");
     }
 
-    const { token } = userLogin.authedUser as User
+    const { token } = userLogin.authedUser as User;
 
     const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
-      method: 'GET',
+      method: "GET",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-    })
+    });
 
     if (response.ok) {
-      let cart = await response.json()
+      let cart = await response.json();
 
-      dispatch(cartDetailsSuccess(cart))
+      dispatch(cartDetailsSuccess(cart));
     } else {
-      throw new Error(`${response.status}: Could not fetch cart`)
+      throw new Error(`${response.status}: Could not fetch cart`);
     }
   } catch (err) {
-    dispatch(cartDetailsFailure(err.message))
+    dispatch(cartDetailsFailure(err.message));
   }
-}
+};
 
 // CART ADD ITEM ACTION CREATORS
 const cartAddItemRequest = (): CartActions => {
   return {
     type: CART_ADD_ITEM_REQUEST,
-  }
-}
+  };
+};
 
 const cartAddItemSuccess = (cart: Cart): CartActions => {
   return {
@@ -89,58 +88,58 @@ const cartAddItemSuccess = (cart: Cart): CartActions => {
     payload: {
       cart,
     },
-  }
-}
+  };
+};
 
 const cartAddItemFailure = (error: string): CartActions => {
   return {
     type: CART_ADD_ITEM_FAILURE,
     error,
-  }
-}
+  };
+};
 
 export const addToCart = (
   productId: string,
   qty: number
 ): AsyncAction => async (dispatch: Dispatch, getState) => {
   try {
-    dispatch(cartAddItemRequest())
+    dispatch(cartAddItemRequest());
 
-    const { userLogin } = getState()
+    const { userLogin } = getState();
 
     if (!userLogin || !userLogin.authedUser) {
-      throw new Error('401: Login to continue')
+      throw new Error("401: Login to continue");
     }
 
-    const { token } = userLogin.authedUser as User
+    const { token } = userLogin.authedUser as User;
 
     const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
-      method: 'PUT',
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ productId, qty }),
-    })
+    });
 
     if (response.ok) {
-      const cart = await response.json()
+      const cart = await response.json();
 
-      dispatch(cartAddItemSuccess(cart))
+      dispatch(cartAddItemSuccess(cart));
     } else {
-      throw new Error(`${response.status}: Could not fetch product`)
+      throw new Error(`${response.status}: Could not fetch product`);
     }
   } catch (err) {
-    dispatch(cartAddItemFailure(err.message))
+    dispatch(cartAddItemFailure(err.message));
   }
-}
+};
 
 // CART REMOVE ITEM ACTION CREATORS
 const cartRemoveItemRequest = (): CartActions => {
   return {
     type: CART_REMOVE_ITEM_REQUEST,
-  }
-}
+  };
+};
 
 const cartRemoveItemSuccess = (cart: Cart): CartActions => {
   return {
@@ -148,54 +147,54 @@ const cartRemoveItemSuccess = (cart: Cart): CartActions => {
     payload: {
       cart,
     },
-  }
-}
+  };
+};
 
 const cartRemoveItemFailure = (error: string): CartActions => {
   return {
     type: CART_REMOVE_ITEM_FAILURE,
     error,
-  }
-}
+  };
+};
 
 export const cartResetSuccess = (): CartActions => {
   return {
     type: CART_RESET_SUCCESS,
-  }
-}
+  };
+};
 
 export const removeFromCart = (productId: string): AsyncAction => async (
   dispatch: Dispatch,
   getState
 ) => {
   try {
-    dispatch(cartRemoveItemRequest())
+    dispatch(cartRemoveItemRequest());
 
-    const { userLogin } = getState()
+    const { userLogin } = getState();
 
     if (!userLogin || !userLogin.authedUser) {
-      throw new Error('401: Login to continue')
+      throw new Error("401: Login to continue");
     }
 
-    const { token } = userLogin.authedUser as User
+    const { token } = userLogin.authedUser as User;
 
     const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
-      method: 'DELETE',
+      method: "DELETE",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ productId }),
-    })
+    });
 
     if (response.ok) {
-      const cart = await response.json()
+      const cart = await response.json();
 
-      dispatch(cartRemoveItemSuccess(cart))
+      dispatch(cartRemoveItemSuccess(cart));
     } else {
-      throw new Error(`${response.status}: Could not remove product`)
+      throw new Error(`${response.status}: Could not remove product`);
     }
   } catch (err) {
-    dispatch(cartRemoveItemFailure(err.message))
+    dispatch(cartRemoveItemFailure(err.message));
   }
-}
+};

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Link, Redirect, useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from "react";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Form,
@@ -8,62 +8,60 @@ import {
   Message,
   Segment,
   Container,
-} from 'semantic-ui-react'
+} from "semantic-ui-react";
 
-import { AppState, NewUser } from '../types'
-import { signupUser } from '../redux/actions/user'
+import { AppState, NewUser } from "../types";
+import { signupUser } from "../redux/actions/user";
 
 const INITIAL_USER: NewUser = {
-  userName: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-}
+  userName: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+  password: "",
+};
 
 const Signup = () => {
-  const [newUser, setNewUser] = useState(INITIAL_USER)
-  const [disabled, setDisabled] = useState(true)
-  const [message, setMessage] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [newUser, setNewUser] = useState(INITIAL_USER);
+  const [disabled, setDisabled] = useState(true);
+  const [message, setMessage] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { loading } = useSelector((state: AppState) => state.userSignup)
+  const { loading, success, error } = useSelector(
+    (state: AppState) => state.userSignup
+  );
 
-  const { success } = useSelector((state: AppState) => state.userSignup)
-
-  const { error } = useSelector((state: AppState) => state.userSignup)
-
-  const { authedUser } = useSelector((state: AppState) => state.userLogin)
+  const { authedUser } = useSelector((state: AppState) => state.userLogin);
 
   useEffect(() => {
-    const isUser: boolean = Object.values(newUser).every((el) => Boolean(el))
-    isUser && confirmPassword ? setDisabled(false) : setDisabled(true)
+    const isUser: boolean = Object.values(newUser).every((el) => Boolean(el));
+    isUser && confirmPassword ? setDisabled(false) : setDisabled(true);
 
     if (success) {
-      history.push('/account')
+      history.push("/account");
     }
-  }, [newUser, confirmPassword, success, history, dispatch])
+  }, [newUser, confirmPassword, success, history, dispatch]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
-    if (name === 'confirmPassword') {
-      setConfirmPassword(value)
+    if (name === "confirmPassword") {
+      setConfirmPassword(value);
     } else {
       setNewUser((prevState) => ({
         ...prevState,
         [name]: value,
-      }))
+      }));
     }
-  }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
+    e.preventDefault();
     if (newUser.password !== confirmPassword) {
-      setMessage('Passwords do not match')
+      setMessage("Passwords do not match");
     } else {
       dispatch(
         signupUser({
@@ -73,16 +71,16 @@ const Signup = () => {
           email: newUser.email,
           password: newUser.password,
         })
-      )
+      );
     }
-  }
+  };
 
   if (authedUser) {
-    return <Redirect to="/account" />
+    return <Redirect to="/account" />;
   }
 
   return (
-    <Container text style={{ marginTop: '2em' }}>
+    <Container text style={{ marginTop: "2em" }}>
       <Message
         attached
         icon="setting"
@@ -90,7 +88,7 @@ const Signup = () => {
         content="Create a new account"
         color="teal"
         style={{
-          marginBottom: '1em',
+          marginBottom: "1em",
         }}
       />
       <Form error={Boolean(error)} onSubmit={handleSubmit} loading={loading}>
@@ -177,7 +175,7 @@ const Signup = () => {
         Existing user? <Link to="/login"> Log in here </Link> instead.
       </Message>
     </Container>
-  )
-}
+  );
+};
 
-export default Signup
+export default Signup;

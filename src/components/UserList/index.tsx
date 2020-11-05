@@ -1,47 +1,47 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { Header, Table, Icon, Message } from 'semantic-ui-react'
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Header, Table, Icon, Message } from "semantic-ui-react";
 
-import { AppState, UserListProps } from '../../types'
-import UserRow from '../UserRow'
+import { AppState, UserListProps } from "../../types";
+import UserRow from "../UserRow";
 import {
   banUser,
   listUsers,
   unbanUser,
   userBanUnbanReset,
-} from '../../redux/actions/user'
+} from "../../redux/actions/user";
 
 const UserList = ({ loggedUserId }: UserListProps) => {
-  const [message, setMessage] = useState('')
-  const dispatch = useDispatch()
+  const [message, setMessage] = useState("");
+  const dispatch = useDispatch();
 
-  const { users } = useSelector((state: AppState) => state.userList)
+  const { users } = useSelector((state: AppState) => state.userList);
 
-  const { error } = useSelector((state: AppState) => state.userBanUnban)
-
-  const { success } = useSelector((state: AppState) => state.userBanUnban)
+  const { error, success } = useSelector(
+    (state: AppState) => state.userBanUnban
+  );
 
   useEffect(() => {
-    dispatch(listUsers())
+    dispatch(listUsers());
 
     if (success) {
-      dispatch(userBanUnbanReset())
+      dispatch(userBanUnbanReset());
     }
-  }, [dispatch, success])
+  }, [dispatch, success]);
 
   const handleChange = (userId: string) => {
-    const user = users.find((user) => user._id === userId)
+    const user = users.find((user) => user._id === userId);
 
     if (user) {
-      user.isBanned && dispatch(unbanUser(user._id))
-      !user.isBanned && dispatch(banUser(user._id))
+      user.isBanned && dispatch(unbanUser(user._id));
+      !user.isBanned && dispatch(banUser(user._id));
     } else {
-      setMessage('Could not find user')
+      setMessage("Could not find user");
     }
-  }
+  };
 
   return (
-    <div style={{ margin: '2em 0' }}>
+    <div style={{ margin: "2em 0" }}>
       <Header as="h2">
         <Icon name="settings" />
         Users information
@@ -77,7 +77,7 @@ const UserList = ({ loggedUserId }: UserListProps) => {
         </Table.Body>
       </Table>
     </div>
-  )
-}
+  );
+};
 
-export default UserList
+export default UserList;

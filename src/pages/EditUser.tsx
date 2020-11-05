@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react'
-import { Redirect, useParams, useHistory } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from "react";
+import { Redirect, useParams, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Form,
@@ -8,9 +8,9 @@ import {
   Segment,
   Container,
   Modal,
-} from 'semantic-ui-react'
+} from "semantic-ui-react";
 
-import { AppState, User, UserParams } from '../types'
+import { AppState, User, UserParams } from "../types";
 import {
   updateUser,
   deleteUser,
@@ -18,42 +18,38 @@ import {
   userUpdateResetAction,
   userDetailsResetAction,
   logoutUser,
-} from '../redux/actions/user'
+} from "../redux/actions/user";
 
 const INITIAL_USER: User = {
-  _id: '',
-  userName: '',
-  firstName: '',
-  lastName: '',
-  email: '',
-}
+  _id: "",
+  userName: "",
+  firstName: "",
+  lastName: "",
+  email: "",
+};
 
 const EditUser = () => {
-  const { userId } = useParams<UserParams>()
+  const { userId } = useParams<UserParams>();
 
-  const [user, setUser] = useState(INITIAL_USER)
-  const [modal, setModal] = useState(false)
+  const [user, setUser] = useState(INITIAL_USER);
+  const [modal, setModal] = useState(false);
 
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-  const { loading } = useSelector((state: AppState) => state.userUpdateProfile)
-
-  const { success: successUpdate } = useSelector(
+  const { success: successUpdate, error, loading } = useSelector(
     (state: AppState) => state.userUpdateProfile
-  )
+  );
 
   const { success: successDelete } = useSelector(
     (state: AppState) => state.userDelete
-  )
+  );
 
-  const { error } = useSelector((state: AppState) => state.userUpdateProfile)
-
-  const { authedUser } = useSelector((state: AppState) => state.userLogin)
+  const { authedUser } = useSelector((state: AppState) => state.userLogin);
 
   const { user: userDetails } = useSelector(
     (state: AppState) => state.userDetails
-  )
+  );
 
   useEffect(() => {
     if (
@@ -61,27 +57,27 @@ const EditUser = () => {
       !userDetails ||
       userDetails._id !== userId
     ) {
-      dispatch(getUserDetails(userId))
+      dispatch(getUserDetails(userId));
     }
 
     userDetails &&
       setUser({
         _id: userDetails._id,
         userName: userDetails.userName,
-        firstName: userDetails.firstName || '',
-        lastName: userDetails.lastName || '',
+        firstName: userDetails.firstName || "",
+        lastName: userDetails.lastName || "",
         email: userDetails.email,
-      })
+      });
 
     if (successUpdate) {
-      history.push('/account')
-      dispatch(userUpdateResetAction())
-      dispatch(userDetailsResetAction())
+      history.push("/account");
+      dispatch(userUpdateResetAction());
+      dispatch(userDetailsResetAction());
     }
 
     if (successDelete) {
-      dispatch(logoutUser())
-      setModal(false)
+      dispatch(logoutUser());
+      setModal(false);
     }
   }, [
     authedUser,
@@ -91,42 +87,42 @@ const EditUser = () => {
     userDetails,
     userId,
     successDelete,
-  ])
+  ]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
 
     setUser((prevState) => ({
       ...prevState,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    dispatch(updateUser(user))
-  }
+    e.preventDefault();
+    dispatch(updateUser(user));
+  };
 
   const handleDeleteUser = (userId: string) => {
-    dispatch(deleteUser(userId))
-  }
+    dispatch(deleteUser(userId));
+  };
 
   if (!authedUser || authedUser._id !== userId) {
-    return <Redirect to="/" />
+    return <Redirect to="/" />;
   }
 
   return (
-    <Container text style={{ marginTop: '2em' }}>
+    <Container text style={{ marginTop: "2em" }}>
       <Message
         attached
         icon="setting"
         header="Manage account"
         content={`Hello ${
-          authedUser.firstName ? authedUser.firstName : 'there'
+          authedUser.firstName ? authedUser.firstName : "there"
         }, here you can manage your account`}
         color="teal"
         style={{
-          marginBottom: '1em',
+          marginBottom: "1em",
         }}
       />
       {error && <Message error header="Oops!" content={error} />}
@@ -186,8 +182,8 @@ const EditUser = () => {
             color="red"
             content="Delete profile"
             onClick={(e) => {
-              e.preventDefault()
-              setModal(true)
+              e.preventDefault();
+              setModal(true);
             }}
           />
           <Modal open={modal} dimmer="blurring">
@@ -209,7 +205,7 @@ const EditUser = () => {
         </Segment>
       </Form>
     </Container>
-  )
-}
+  );
+};
 
-export default EditUser
+export default EditUser;

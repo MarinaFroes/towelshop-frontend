@@ -1,9 +1,9 @@
-import React from 'react'
-import Routes from './Routes'
-import { Container } from 'semantic-ui-react'
+import React from "react";
+import { Container } from "semantic-ui-react";
 
-import NavBar from './components/NavBar'
-import Footer from './components/Footer'
+import Routes from "./Routes";
+import NavBar from "./components/NavBar";
+import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -11,8 +11,8 @@ const App = () => {
       <NavBar />
       <Container
         style={{
-          minHeight: '75vh',
-          width: '100%',
+          minHeight: "75vh",
+          width: "100%",
         }}
         vertical="true"
       >
@@ -20,7 +20,7 @@ const App = () => {
       </Container>
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
