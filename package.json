@@ -57,14 +57,8 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router-dom": "^5.1.6",
     "@types/semantic-ui": "^2.2.7",
-    "husky": "^4.2.3",
     "lint-staged": "^10.0.7",
     "redux-immutable-state-invariant": "^2.1.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "./src/**/*.{js,jsx,ts,tsx}": [

@@ -1,43 +1,43 @@
-import React, { useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { Container, Message } from "semantic-ui-react";
-import * as QueryString from "query-string";
+import React, { useEffect } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { Container, Message } from 'semantic-ui-react'
+import * as QueryString from 'query-string'
 
-import Header from "../components/Header";
-import Search from "../components/Search";
-import LoaderComponent from "../components/LoaderComponent";
-import ProductCard from "../components/ProductCard";
-import Pagination from "../components/Pagination";
-import { AppState } from "../types";
-import { listProducts } from "../redux/actions/products";
+import Header from '../components/Header'
+import Search from '../components/Search'
+import LoaderComponent from '../components/LoaderComponent'
+import ProductCard from '../components/ProductCard'
+import Pagination from '../components/Pagination'
+import { AppState } from '../types'
+import { listProducts } from '../redux/actions/products'
 
 const Home = () => {
-  const dispatch = useDispatch();
-  const location = useLocation();
+  const dispatch = useDispatch()
+  const location = useLocation()
 
   const { page, name, size, category, variant } = QueryString.parse(
     location.search
-  );
+  )
 
-  const { productList } = useSelector((state: AppState) => state);
-  const { products, totalPages, loading, error } = productList;
+  const { productList } = useSelector((state: AppState) => state)
+  const { products, totalPages, loading, error } = productList
 
   useEffect(() => {
-    dispatch(listProducts({ page, name, size, category, variant }));
-  }, [dispatch, page, name, size, category, variant]);
+    dispatch(listProducts({ page, name, size, category, variant }))
+  }, [dispatch, page, name, size, category, variant])
 
   return (
     <>
       <Header
         h1Content="Don't panic. Buy a towel."
-        h2Content="The most useful thing an interstellar hitchhiker can have"
+        h2Content='The most useful thing an interstellar hitchhiker can have'
       />
-      <Container style={{ marginTop: "2em" }}>
+      <Container style={{ marginTop: '2em' }}>
         {loading ? (
           <LoaderComponent />
         ) : error ? (
-          <Message error header="Oops!" content={error} />
+          <Message error header='Oops!' content={error} />
         ) : (
           products && (
             <>
@@ -49,7 +49,7 @@ const Home = () => {
         )}
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default Home;
+export default Home

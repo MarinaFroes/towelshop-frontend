@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Redirect, useParams, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react'
+import { Redirect, useParams, useHistory } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   Button,
   Form,
@@ -8,9 +8,9 @@ import {
   Segment,
   Container,
   Modal,
-} from "semantic-ui-react";
+} from 'semantic-ui-react'
 
-import { AppState, User, UserParams } from "../types";
+import { AppState, User, UserParams } from '../types'
 import {
   updateUser,
   deleteUser,
@@ -18,38 +18,38 @@ import {
   userUpdateResetAction,
   userDetailsResetAction,
   logoutUser,
-} from "../redux/actions/user";
+} from '../redux/actions/user'
 
 const INITIAL_USER: User = {
-  _id: "",
-  userName: "",
-  firstName: "",
-  lastName: "",
-  email: "",
-};
+  _id: '',
+  userName: '',
+  firstName: '',
+  lastName: '',
+  email: '',
+}
 
 const EditUser = () => {
-  const { userId } = useParams<UserParams>();
+  const { userId } = useParams<UserParams>()
 
-  const [user, setUser] = useState(INITIAL_USER);
-  const [modal, setModal] = useState(false);
+  const [user, setUser] = useState(INITIAL_USER)
+  const [modal, setModal] = useState(false)
 
-  const dispatch = useDispatch();
-  const history = useHistory();
+  const dispatch = useDispatch()
+  const history = useHistory()
 
   const { success: successUpdate, error, loading } = useSelector(
     (state: AppState) => state.userUpdateProfile
-  );
+  )
 
   const { success: successDelete } = useSelector(
     (state: AppState) => state.userDelete
-  );
+  )
 
-  const { authedUser } = useSelector((state: AppState) => state.userLogin);
+  const { authedUser } = useSelector((state: AppState) => state.userLogin)
 
   const { user: userDetails } = useSelector(
     (state: AppState) => state.userDetails
-  );
+  )
 
   useEffect(() => {
     if (
@@ -57,27 +57,27 @@ const EditUser = () => {
       !userDetails ||
       userDetails._id !== userId
     ) {
-      dispatch(getUserDetails(userId));
+      dispatch(getUserDetails(userId))
     }
 
     userDetails &&
       setUser({
         _id: userDetails._id,
         userName: userDetails.userName,
-        firstName: userDetails.firstName || "",
-        lastName: userDetails.lastName || "",
+        firstName: userDetails.firstName || '',
+        lastName: userDetails.lastName || '',
         email: userDetails.email,
-      });
+      })
 
     if (successUpdate) {
-      history.push("/account");
-      dispatch(userUpdateResetAction());
-      dispatch(userDetailsResetAction());
+      history.push('/account')
+      dispatch(userUpdateResetAction())
+      dispatch(userDetailsResetAction())
     }
 
     if (successDelete) {
-      dispatch(logoutUser());
-      setModal(false);
+      dispatch(logoutUser())
+      setModal(false)
     }
   }, [
     authedUser,
@@ -87,117 +87,117 @@ const EditUser = () => {
     userDetails,
     userId,
     successDelete,
-  ]);
+  ])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
 
     setUser((prevState) => ({
       ...prevState,
       [name]: value,
-    }));
-  };
+    }))
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    dispatch(updateUser(user));
-  };
+    e.preventDefault()
+    dispatch(updateUser(user))
+  }
 
   const handleDeleteUser = (userId: string) => {
-    dispatch(deleteUser(userId));
-  };
+    dispatch(deleteUser(userId))
+  }
 
   if (!authedUser || authedUser._id !== userId) {
-    return <Redirect to="/" />;
+    return <Redirect to='/' />
   }
 
   return (
-    <Container text style={{ marginTop: "2em" }}>
+    <Container text style={{ marginTop: '2em' }}>
       <Message
         attached
-        icon="setting"
-        header="Manage account"
+        icon='setting'
+        header='Manage account'
         content={`Hello ${
-          authedUser.firstName ? authedUser.firstName : "there"
+          authedUser.firstName ? authedUser.firstName : 'there'
         }, here you can manage your account`}
-        color="teal"
+        color='teal'
         style={{
-          marginBottom: "1em",
+          marginBottom: '1em',
         }}
       />
-      {error && <Message error header="Oops!" content={error} />}
+      {error && <Message error header='Oops!' content={error} />}
 
       <Form error={Boolean(error)} onSubmit={handleSubmit} loading={loading}>
         <Segment>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Input
               fluid
-              label="First Name"
-              placeholder="Ford"
-              name="firstName"
+              label='First Name'
+              placeholder='Ford'
+              name='firstName'
               value={user.firstName}
               onChange={handleChange}
             />
             <Form.Input
               fluid
-              label="Last Name"
-              placeholder="Prefect"
-              name="lastName"
+              label='Last Name'
+              placeholder='Prefect'
+              name='lastName'
               value={user.lastName}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group widths="equal">
+          <Form.Group widths='equal'>
             <Form.Input
               fluid
-              icon="user"
-              iconPosition="left"
-              label="User Name"
-              placeholder="fordPrefect"
-              name="userName"
+              icon='user'
+              iconPosition='left'
+              label='User Name'
+              placeholder='fordPrefect'
+              name='userName'
               value={user.userName}
               onChange={handleChange}
             />
             <Form.Input
               fluid
-              icon="envelope"
-              iconPosition="left"
-              label="Email"
-              placeholder="fprefect@example.com"
-              name="email"
-              type="email"
+              icon='envelope'
+              iconPosition='left'
+              label='Email'
+              placeholder='fprefect@example.com'
+              name='email'
+              type='email'
               value={user.email}
               onChange={handleChange}
             />
           </Form.Group>
           <Button
-            icon="signup"
-            type="submit"
-            color="orange"
-            content="Update profile"
+            icon='signup'
+            type='submit'
+            color='orange'
+            content='Update profile'
             disabled={loading}
           />
           <Button
-            icon="trash"
-            color="red"
-            content="Delete profile"
+            icon='trash'
+            color='red'
+            content='Delete profile'
             onClick={(e) => {
-              e.preventDefault();
-              setModal(true);
+              e.preventDefault()
+              setModal(true)
             }}
           />
-          <Modal open={modal} dimmer="blurring">
+          <Modal open={modal} dimmer='blurring'>
             <Modal.Header>Confirm delete</Modal.Header>
             <Modal.Content>
               <p>Are you sure you want to delete your account?</p>
             </Modal.Content>
             <Modal.Actions>
-              <Button content="Cancel" onClick={() => setModal(false)} />
+              <Button content='Cancel' onClick={() => setModal(false)} />
               <Button
                 negative
-                icon="trash"
-                labelPosition="right"
-                content="Delete"
+                icon='trash'
+                labelPosition='right'
+                content='Delete'
                 onClick={() => handleDeleteUser(user._id)}
               />
             </Modal.Actions>
@@ -205,7 +205,7 @@ const EditUser = () => {
         </Segment>
       </Form>
     </Container>
-  );
-};
+  )
+}
 
-export default EditUser;
+export default EditUser
