@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
 
-import { AppState } from "../types";
-import createRootReducer from "./reducers";
+import { AppState } from '../types'
+import createRootReducer from './reducers'
 
-const userLoginFromStorage = localStorage.getItem("userLogin") || null;
+const userLoginFromStorage = localStorage.getItem('userLogin') || null
 
 const initState: AppState = {
   productDelete: {
@@ -79,19 +79,19 @@ const initState: AppState = {
     error: null,
     user: null,
   },
-};
+}
 
 export default function makeStore(initialState = initState) {
   const middlewares =
-    process.env.NODE_ENV === "development"
-      ? [require("redux-immutable-state-invariant").default(), thunk]
-      : [thunk];
+    process.env.NODE_ENV === 'development'
+      ? [require('redux-immutable-state-invariant').default(), thunk]
+      : [thunk]
 
-  let composeEnhancers = compose;
+  let composeEnhancers = compose
 
-  if (process.env.NODE_ENV === "development") {
+  if (process.env.NODE_ENV === 'development') {
     if ((window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
-      composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
+      composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     }
   }
 
@@ -99,14 +99,14 @@ export default function makeStore(initialState = initState) {
     createRootReducer(),
     initialState,
     composeEnhancers(applyMiddleware(...middlewares))
-  );
+  )
 
   if ((module as any).hot) {
-    (module as any).hot.accept("./reducers", () => {
-      const nextReducer = require("./reducers").default;
-      store.replaceReducer(nextReducer);
-    });
+    ;(module as any).hot.accept('./reducers', () => {
+      const nextReducer = require('./reducers').default
+      store.replaceReducer(nextReducer)
+    })
   }
 
-  return store;
+  return store
 }
