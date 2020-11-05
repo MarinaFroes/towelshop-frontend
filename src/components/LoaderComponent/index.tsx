@@ -1,5 +1,5 @@
-import React from 'react'
-import { Dimmer, Loader, Image } from 'semantic-ui-react'
+import React from "react";
+import { Dimmer, Loader, Image } from "semantic-ui-react";
 
 const LoaderComponent = () => (
   <>
@@ -8,6 +8,6 @@ const LoaderComponent = () => (
     </Dimmer>
     <Image src="https://react.semantic-ui.com/images/wireframe/short-paragraph.png" />
   </>
-)
+);
 
-export default React.memo(LoaderComponent)
+export default React.memo(LoaderComponent);
