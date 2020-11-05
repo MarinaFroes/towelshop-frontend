@@ -15,23 +15,23 @@ const OurHistory = () => {
   return (
     <>
       <Header
-        h1Content="Our history"
-        h2Content="A towel is not a product, is a lifestyle."
+        h1Content='Our history'
+        h2Content='A towel is not a product, is a lifestyle.'
       />
       <Container>
         <Segment style={{ padding: '8em 0em' }} vertical>
-          <Grid container stackable verticalAlign="middle">
+          <Grid container stackable verticalAlign='middle'>
             <Grid.Row>
               <Grid.Column width={8}>
-                <SuiHeader as="h3" style={{ fontSize: '2em' }}>
+                <SuiHeader as='h3' style={{ fontSize: '2em' }}>
                   Why we sell towels
                 </SuiHeader>
                 <p style={{ fontSize: '1.33em' }}>
                   A towel, as{' '}
                   <a
-                    href="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href='https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy'
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
                     The Hitchhiker's Guide to the Galaxy
                   </a>{' '}
@@ -52,23 +52,23 @@ const OurHistory = () => {
                   off with it if it still seems to be clean enough.
                 </p>
               </Grid.Column>
-              <Grid.Column floated="right" width={6}>
+              <Grid.Column floated='right' width={6}>
                 <Image
                   bordered
                   rounded
-                  size="large"
-                  src="https://res.cloudinary.com/dglvomnoi/image/upload/v1603110077/hhtiufe01piez4ev8ciy.jpg"
+                  size='large'
+                  src='https://res.cloudinary.com/dglvomnoi/image/upload/v1603110077/hhtiufe01piez4ev8ciy.jpg'
                 />
               </Grid.Column>
             </Grid.Row>
             <Grid.Row>
-              <Grid.Column textAlign="center">
+              <Grid.Column textAlign='center'>
                 <Button
-                  size="huge"
-                  as="a"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  href="https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy"
+                  size='huge'
+                  as='a'
+                  target='_blank'
+                  rel='noopener noreferrer'
+                  href='https://en.wikipedia.org/wiki/The_Hitchhiker%27s_Guide_to_the_Galaxy'
                 >
                   Read more
                 </Button>
@@ -77,18 +77,18 @@ const OurHistory = () => {
           </Grid>
         </Segment>
         <Segment style={{ padding: '0em' }} vertical>
-          <Grid celled="internally" columns="equal" stackable>
-            <Grid.Row textAlign="center">
+          <Grid celled='internally' columns='equal' stackable>
+            <Grid.Row textAlign='center'>
               <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                <SuiHeader as="h3" style={{ fontSize: '2em' }}>
+                <SuiHeader as='h3' style={{ fontSize: '2em' }}>
                   How many towels should I have?
                 </SuiHeader>
                 <p style={{ fontSize: '1.33em' }}>
                   The TowelShop42 team thinks that{' '}
                   <a
-                    href="https://en.wikipedia.org/wiki/42_(number)"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href='https://en.wikipedia.org/wiki/42_(number)'
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
                     42{' '}
                   </a>
@@ -97,15 +97,15 @@ const OurHistory = () => {
                 </p>
               </Grid.Column>
               <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
-                <SuiHeader as="h3" style={{ fontSize: '2em' }}>
+                <SuiHeader as='h3' style={{ fontSize: '2em' }}>
                   Do you want to know more about towels?
                 </SuiHeader>
                 <p style={{ fontSize: '1.33em' }}>
                   Read about{' '}
                   <a
-                    href="https://en.wikipedia.org/wiki/Towel_Day"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href='https://en.wikipedia.org/wiki/Towel_Day'
+                    target='_blank'
+                    rel='noopener noreferrer'
                   >
                     Towel Day
                   </a>
@@ -114,24 +114,24 @@ const OurHistory = () => {
               </Grid.Column>
             </Grid.Row>
           </Grid>
-          <Grid container stackable verticalAlign="middle">
+          <Grid container stackable verticalAlign='middle'>
             <Grid.Column
-              floated="left"
+              floated='left'
               width={6}
               style={{ paddingBottom: '5em', paddingTop: '5em' }}
             >
               <Image
                 bordered
                 rounded
-                size="large"
-                src="https://res.cloudinary.com/dglvomnoi/image/upload/v1603111060/m8nrze7yezcjgrz4cqp2.jpg"
+                size='large'
+                src='https://res.cloudinary.com/dglvomnoi/image/upload/v1603111060/m8nrze7yezcjgrz4cqp2.jpg'
               />
             </Grid.Column>
             <Grid.Column
               width={8}
               style={{ paddingBottom: '5em', paddingTop: '5em' }}
             >
-              <SuiHeader as="h3" style={{ fontSize: '2em' }}>
+              <SuiHeader as='h3' style={{ fontSize: '2em' }}>
                 More reasons to buy a towel
               </SuiHeader>
               <p style={{ fontSize: '1.33em' }}>
@@ -152,7 +152,7 @@ const OurHistory = () => {
           </Grid>
           <Message style={{ marginBottom: '1em' }}>
             The content of this page was copied from{' '}
-            <a href="https://en.wikipedia.org/wiki/Towel_Day">Wikipedia</a>
+            <a href='https://en.wikipedia.org/wiki/Towel_Day'>Wikipedia</a>
           </Message>
         </Segment>
       </Container>
