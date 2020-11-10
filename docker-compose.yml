@@ -1,14 +1,24 @@
-version: '2.0'
+version: '3.8'
 services:
   frontend:
+    container_name: towelshop-frontend
     build: ./
-    ports:
-    - "3000:3000"
-    depends_on:
-    - backend
+    image: "reactapp:1.0.0"
+    networks:
+      - ts-network
   backend:
+    container_name: towelshop-backend
     build: ../backend
+    image: "expressapp:1.0.0"
+    networks:
+      - ts-network
+  revproxy:
+    container_name: towelshop-proxy
+    build: ../revproxy
+    image: "reverseproxy:1.0.0"
+    networks:
+      - ts-network
     ports:
-    - "5000:5000"
-# To build it: docker-compose build
-# To run it: docker-compose up
+      - "8080:80"
+networks:
+  ts-network:
