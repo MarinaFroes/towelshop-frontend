@@ -1,4 +1,9 @@
-# Ecommerce Fullstack project
+# TowelShop42 Frontend
+
+[ README IN PROGRESS ]
+
+This is the frontend for the TowelShop42 fullstack project.
+For informations about the backend, please check [this other repo](https://github.com/MarinaFroes/towelshop-service).
 
 See Screenshots bellow.
 
