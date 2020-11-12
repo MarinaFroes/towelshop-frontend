@@ -5,22 +5,20 @@ import Routes from './Routes'
 import NavBar from './components/NavBar'
 import Footer from './components/Footer'
 
-const App = () => {
-  return (
-    <>
-      <NavBar />
-      <Container
-        style={{
-          minHeight: '75vh',
-          width: '100%',
-        }}
-        vertical='true'
-      >
-        <Routes />
-      </Container>
-      <Footer />
-    </>
-  )
-}
+const App = () => (
+  <>
+    <NavBar />
+    <Container
+      style={{
+        minHeight: '75vh',
+        width: '100%',
+      }}
+      vertical="true"
+    >
+      <Routes />
+    </Container>
+    <Footer />
+  </>
+)
 
 export default App

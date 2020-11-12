@@ -19,9 +19,7 @@ const ProductPagination = ({ totalPages, isAdmin }: ProductPaginationProps) => {
     const regex = /page=[0-9]*/g
 
     let otherQueries = stringified.replace(regex, '')
-    let newUrl = `${baseUrl}?page=${activePage}${
-      otherQueries ? `&${otherQueries}` : ''
-    }`
+    let newUrl = `?page=${activePage}${otherQueries ? `&${otherQueries}` : ''}`
 
     return newUrl
   }

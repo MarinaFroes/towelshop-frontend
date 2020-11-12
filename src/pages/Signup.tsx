@@ -76,103 +76,103 @@ const Signup = () => {
   }
 
   if (authedUser) {
-    return <Redirect to='/account' />
+    return <Redirect to="/account" />
   }
 
   return (
     <Container text style={{ marginTop: '2em' }}>
       <Message
         attached
-        icon='setting'
-        header='Get started'
-        content='Create a new account'
-        color='teal'
+        icon="setting"
+        header="Get started"
+        content="Create a new account"
+        color="teal"
         style={{
           marginBottom: '1em',
         }}
       />
       <Form error={Boolean(error)} onSubmit={handleSubmit} loading={loading}>
-        {error && <Message error header='Oops!' content={error} />}
-        {message && <Message warning header='Oops!' content={message} />}
+        {error && <Message error header="Oops!" content={error} />}
+        {message && <Message warning header="Oops!" content={message} />}
         <Segment>
-          <Form.Group widths='equal'>
+          <Form.Group widths="equal">
             <Form.Input
               fluid
-              label='First Name'
-              placeholder='Ford'
-              name='firstName'
+              label="First Name"
+              placeholder="Ford"
+              name="firstName"
               value={newUser.firstName}
               onChange={handleChange}
             />
             <Form.Input
               fluid
-              label='Last Name'
-              placeholder='Prefect'
-              name='lastName'
+              label="Last Name"
+              placeholder="Prefect"
+              name="lastName"
               value={newUser.lastName}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group widths='equal'>
+          <Form.Group widths="equal">
             <Form.Input
               fluid
-              icon='user'
-              iconPosition='left'
-              label='User Name'
-              placeholder='fordPrefect'
-              name='userName'
+              icon="user"
+              iconPosition="left"
+              label="User Name"
+              placeholder="fordPrefect"
+              name="userName"
               value={newUser.userName}
               onChange={handleChange}
             />
             <Form.Input
               fluid
-              icon='envelope'
-              iconPosition='left'
-              label='Email'
-              placeholder='fprefect@example.com'
-              name='email'
-              type='email'
+              icon="envelope"
+              iconPosition="left"
+              label="Email"
+              placeholder="fprefect@example.com"
+              name="email"
+              type="email"
               value={newUser.email}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group widths='equal'>
+          <Form.Group widths="equal">
             <Form.Input
               fluid
-              icon='lock'
-              iconPosition='left'
-              label='Password'
-              placeholder='Password'
-              type='password'
-              name='password'
+              icon="lock"
+              iconPosition="left"
+              label="Password"
+              placeholder="Password"
+              type="password"
+              name="password"
               value={newUser.password}
               onChange={handleChange}
             />
             <Form.Input
               fluid
-              icon='lock'
-              iconPosition='left'
-              label='Confirm Password'
-              placeholder='Password'
-              type='password'
-              name='confirmPassword'
+              icon="lock"
+              iconPosition="left"
+              label="Confirm Password"
+              placeholder="Password"
+              type="password"
+              name="confirmPassword"
               value={confirmPassword}
               onChange={handleChange}
             />
           </Form.Group>
 
           <Button
-            icon='signup'
-            type='submit'
-            color='orange'
-            content='Sign up'
+            icon="signup"
+            type="submit"
+            color="orange"
+            content="Sign up"
             disabled={disabled || loading}
           />
         </Segment>
       </Form>
-      <Message attached='bottom' warning>
-        <Icon name='help' />
-        Existing user? <Link to='/login'> Log in here </Link> instead.
+      <Message attached="bottom" warning>
+        <Icon name="help" />
+        Existing user? <Link to="/login"> Log in here </Link> instead.
       </Message>
     </Container>
   )

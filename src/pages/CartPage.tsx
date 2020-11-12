@@ -39,7 +39,7 @@ const CartPage = () => {
 
   return (
     <Container text style={{ margin: '2em' }}>
-      {errorMessage && <Message error header='Oops!' content={errorMessage} />}
+      {errorMessage && <Message error header="Oops!" content={errorMessage} />}
       {loading ? (
         <LoaderComponent />
       ) : (

@@ -14,7 +14,6 @@ import GoogleLogin from 'react-google-login'
 import { AppState } from '../types'
 import { loginUser } from '../redux/actions/user'
 import { getCart } from '../redux/actions/cart'
-import baseUrl from '../util/baseUrl'
 
 const INITIAL_USER = {
   email: '',
@@ -60,7 +59,7 @@ const Login = () => {
       const { id_token } = response.tokenObj
 
       try {
-        const res = await fetch(`${baseUrl}/api/v1/auth/google-authenticate`, {
+        const res = await fetch(`/api/v1/auth/google-authenticate`, {
           method: 'POST',
           headers: {
             Authorization: `Bearer ${id_token}`,
@@ -86,51 +85,51 @@ const Login = () => {
     <Container text style={{ marginTop: '2em' }}>
       <Message
         attached
-        icon='privacy'
-        header='Welcome back'
-        content='Login in with email and password or you gogle account'
-        color='blue'
+        icon="privacy"
+        header="Welcome back"
+        content="Login in with email and password or you gogle account"
+        color="blue"
         style={{
           marginBottom: '1em',
         }}
       />
       <Form error={Boolean(error)} onSubmit={handleSubmit} loading={loading}>
-        {error && <Message error header='Oops!' content={error} />}
+        {error && <Message error header="Oops!" content={error} />}
 
         <Segment>
           <Form.Input
             fluid
-            icon='envelope'
-            iconPosition='left'
-            label='Email'
-            placeholder='fprefect@example.com'
-            name='email'
-            type='email'
+            icon="envelope"
+            iconPosition="left"
+            label="Email"
+            placeholder="fprefect@example.com"
+            name="email"
+            type="email"
             value={loginInfo.email}
             onChange={handleChange}
           />
           <Form.Input
             fluid
-            icon='lock'
-            iconPosition='left'
-            label='Password'
-            placeholder='Password'
-            type='password'
-            name='password'
+            icon="lock"
+            iconPosition="left"
+            label="Password"
+            placeholder="Password"
+            type="password"
+            name="password"
             value={loginInfo.password}
             onChange={handleChange}
           />
           <Button
-            icon='sign in'
-            type='submit'
-            color='orange'
-            content='Login'
+            icon="sign in"
+            type="submit"
+            color="orange"
+            content="Login"
             disabled={disabled || loading}
             style={{ marginRight: '2em' }}
           />
           <GoogleLogin
-            clientId='924878298620-pc62g9jo64m8p3muloa0r76do7lq3kov.apps.googleusercontent.com'
-            buttonText='Login with Google'
+            clientId="924878298620-pc62g9jo64m8p3muloa0r76do7lq3kov.apps.googleusercontent.com"
+            buttonText="Login with Google"
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
             cookiePolicy={'single_host_origin'}
@@ -139,10 +138,10 @@ const Login = () => {
         </Segment>
       </Form>
 
-      <Message attached='bottom' warning>
-        <Icon name='help' />
+      <Message attached="bottom" warning>
+        <Icon name="help" />
         New user?
-        <Link to='/signup'> Sign up here </Link> instead.
+        <Link to="/signup"> Sign up here </Link> instead.
       </Message>
     </Container>
   )

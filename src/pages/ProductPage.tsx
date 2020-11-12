@@ -33,7 +33,7 @@ const ProductPage = () => {
       {loading ? (
         <LoaderComponent />
       ) : error ? (
-        <Message error content={error} header='Oops!' />
+        <Message error content={error} header="Oops!" />
       ) : (
         product && (
           <Segment>

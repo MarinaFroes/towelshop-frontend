@@ -9,11 +9,11 @@ const NotFound = () => {
     <Container text>
       <Segment placeholder style={{ margin: '2em' }}>
         <Header icon>
-          <Icon name='frown outline' />
+          <Icon name="frown outline" />
           404 - Page not found
         </Header>
         <Segment.Inline>
-          <Button color='teal' onClick={() => history.push('/')}>
+          <Button color="teal" onClick={() => history.push('/')}>
             Go back to home page
           </Button>
         </Segment.Inline>

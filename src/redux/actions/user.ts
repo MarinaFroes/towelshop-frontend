@@ -48,7 +48,6 @@ import {
   USER_LOGOUT_SUCCESS,
   USER_LOGOUT_FAILURE,
 } from '../../types'
-import baseUrl from '../../util/baseUrl'
 
 // USER UPDATE ACTIONS
 const userUpdateRequestAction = (): UserUpdateActions => {
@@ -94,17 +93,14 @@ export const updateUser = (updatedUser: User): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(
-      `${baseUrl}/api/v1/users/${updatedUser._id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(updatedUser),
-      }
-    )
+    const response: any = await fetch(`/api/v1/users/${updatedUser._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(updatedUser),
+    })
 
     if (response.ok) {
       const userData: User = await response.json()
@@ -158,7 +154,7 @@ export const listUsers = (): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(`${baseUrl}/api/v1/users`, {
+    const response: any = await fetch('/api/v1/users', {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -222,7 +218,7 @@ export const getUserDetails = (userId: string): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(`${baseUrl}/api/v1/users/${userId}`, {
+    const response: any = await fetch(`/api/v1/users/${userId}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -289,15 +285,12 @@ export const banUser = (userId: string): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(
-      `${baseUrl}/api/v1/users/${userId}/ban-user`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    const response: any = await fetch(`/api/v1/users/${userId}/ban-user`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
     if (response.ok) {
       dispatch(userBanSuccessAction())
@@ -344,15 +337,12 @@ export const unbanUser = (userId: string): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(
-      `${baseUrl}/api/v1/users/${userId}/unban-user`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    const response: any = await fetch(`/api/v1/users/${userId}/unban-user`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
     if (response.ok) {
       dispatch(userUnbanSuccessAction())
     } else {
@@ -398,7 +388,7 @@ export const deleteUser = (userId: string): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(`${baseUrl}/api/v1/users/${userId}`, {
+    const response: any = await fetch(`/api/v1/users/${userId}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -448,7 +438,7 @@ export const signupUser = (user: NewUser): AsyncAction => async (
   try {
     dispatch(userSignupRequestAction())
 
-    const response: any = await fetch(`${baseUrl}/api/v1/users/signup`, {
+    const response: any = await fetch('/api/v1/users/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -501,7 +491,7 @@ export const loginUser = (user: LoginInfo): AsyncAction => async (
   try {
     dispatch(loginRequestAction())
 
-    const response: any = await fetch(`${baseUrl}/api/v1/users/login`, {
+    const response: any = await fetch('/api/v1/users/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -553,7 +543,7 @@ export const loginGoogleUser = (token: string): AsyncAction => async (
 
     const data: TokenData = decodeToken(token) as TokenData
 
-    const response: any = await fetch(`${baseUrl}/api/v1/users/${data.id}`, {
+    const response: any = await fetch(`/api/v1/users/${data.id}`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -599,7 +589,7 @@ export const logoutUser = (): AsyncAction => async (dispatch: Dispatch) => {
   try {
     dispatch(logoutRequestAction())
 
-    const response: any = await fetch(`${baseUrl}/api/v1/auth/logout`)
+    const response: any = await fetch('/api/v1/auth/logout')
 
     if (response.ok) {
       dispatch(logoutSucessAction())

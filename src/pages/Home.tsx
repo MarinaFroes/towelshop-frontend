@@ -31,13 +31,13 @@ const Home = () => {
     <>
       <Header
         h1Content="Don't panic. Buy a towel."
-        h2Content='The most useful thing an interstellar hitchhiker can have'
+        h2Content="The most useful thing an interstellar hitchhiker can have"
       />
       <Container style={{ marginTop: '2em' }}>
         {loading ? (
           <LoaderComponent />
         ) : error ? (
-          <Message error header='Oops!' content={error} />
+          <Message error header="Oops!" content={error} />
         ) : (
           products && (
             <>

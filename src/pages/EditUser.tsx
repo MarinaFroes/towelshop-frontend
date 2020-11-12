@@ -108,96 +108,96 @@ const EditUser = () => {
   }
 
   if (!authedUser || authedUser._id !== userId) {
-    return <Redirect to='/' />
+    return <Redirect to="/" />
   }
 
   return (
     <Container text style={{ marginTop: '2em' }}>
       <Message
         attached
-        icon='setting'
-        header='Manage account'
+        icon="setting"
+        header="Manage account"
         content={`Hello ${
           authedUser.firstName ? authedUser.firstName : 'there'
         }, here you can manage your account`}
-        color='teal'
+        color="teal"
         style={{
           marginBottom: '1em',
         }}
       />
-      {error && <Message error header='Oops!' content={error} />}
+      {error && <Message error header="Oops!" content={error} />}
 
       <Form error={Boolean(error)} onSubmit={handleSubmit} loading={loading}>
         <Segment>
-          <Form.Group widths='equal'>
+          <Form.Group widths="equal">
             <Form.Input
               fluid
-              label='First Name'
-              placeholder='Ford'
-              name='firstName'
+              label="First Name"
+              placeholder="Ford"
+              name="firstName"
               value={user.firstName}
               onChange={handleChange}
             />
             <Form.Input
               fluid
-              label='Last Name'
-              placeholder='Prefect'
-              name='lastName'
+              label="Last Name"
+              placeholder="Prefect"
+              name="lastName"
               value={user.lastName}
               onChange={handleChange}
             />
           </Form.Group>
-          <Form.Group widths='equal'>
+          <Form.Group widths="equal">
             <Form.Input
               fluid
-              icon='user'
-              iconPosition='left'
-              label='User Name'
-              placeholder='fordPrefect'
-              name='userName'
+              icon="user"
+              iconPosition="left"
+              label="User Name"
+              placeholder="fordPrefect"
+              name="userName"
               value={user.userName}
               onChange={handleChange}
             />
             <Form.Input
               fluid
-              icon='envelope'
-              iconPosition='left'
-              label='Email'
-              placeholder='fprefect@example.com'
-              name='email'
-              type='email'
+              icon="envelope"
+              iconPosition="left"
+              label="Email"
+              placeholder="fprefect@example.com"
+              name="email"
+              type="email"
               value={user.email}
               onChange={handleChange}
             />
           </Form.Group>
           <Button
-            icon='signup'
-            type='submit'
-            color='orange'
-            content='Update profile'
+            icon="signup"
+            type="submit"
+            color="orange"
+            content="Update profile"
             disabled={loading}
           />
           <Button
-            icon='trash'
-            color='red'
-            content='Delete profile'
+            icon="trash"
+            color="red"
+            content="Delete profile"
             onClick={(e) => {
               e.preventDefault()
               setModal(true)
             }}
           />
-          <Modal open={modal} dimmer='blurring'>
+          <Modal open={modal} dimmer="blurring">
             <Modal.Header>Confirm delete</Modal.Header>
             <Modal.Content>
               <p>Are you sure you want to delete your account?</p>
             </Modal.Content>
             <Modal.Actions>
-              <Button content='Cancel' onClick={() => setModal(false)} />
+              <Button content="Cancel" onClick={() => setModal(false)} />
               <Button
                 negative
-                icon='trash'
-                labelPosition='right'
-                content='Delete'
+                icon="trash"
+                labelPosition="right"
+                content="Delete"
                 onClick={() => handleDeleteUser(user._id)}
               />
             </Modal.Actions>

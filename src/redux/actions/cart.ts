@@ -16,7 +16,6 @@ import {
   CART_ADD_ITEM_SUCCESS,
   CART_ADD_ITEM_FAILURE,
 } from '../../types'
-import baseUrl from '../../util/baseUrl'
 
 // CART DETAILS ACTION CREATORS
 const cartDetailsRequest = (): CartActions => {
@@ -56,7 +55,7 @@ export const getCart = (): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
+    const response: any = await fetch('/api/v1/cart', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${token}`,
@@ -64,7 +63,7 @@ export const getCart = (): AsyncAction => async (
     })
 
     if (response.ok) {
-      let cart = await response.json()
+      const cart = await response.json()
 
       dispatch(cartDetailsSuccess(cart))
     } else {
@@ -113,7 +112,7 @@ export const addToCart = (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
+    const response: any = await fetch('/api/v1/cart', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -178,7 +177,7 @@ export const removeFromCart = (productId: string): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(`${baseUrl}/api/v1/cart`, {
+    const response: any = await fetch('/api/v1/cart', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',

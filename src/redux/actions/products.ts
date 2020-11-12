@@ -31,7 +31,6 @@ import {
   PRODUCT_UPDATE_FAILURE,
   PRODUCT_UPDATE_RESET,
 } from '../../types'
-import baseUrl from '../../util/baseUrl'
 
 // PRODUCT LIST ACTION CREATORS
 const productListRequest = (): ProductListActions => {
@@ -75,7 +74,7 @@ export const listProducts = (queryItems: QueryItems): AsyncAction => async (
     } = queryItems
 
     const response: any = await fetch(
-      `${baseUrl}/api/v1/products?page=${
+      `/api/v1/products?page=${
         page || '1'
       }&size=${size}&name=${name}&variant=${variant}&category=${category}`
     )
@@ -131,10 +130,10 @@ export const getProductDetails = (id: string): AsyncAction => async (
   try {
     dispatch(productDetailsRequest())
 
-    const response: any = await fetch(`${baseUrl}/api/v1/products/${id}`)
+    const response: any = await fetch(`/api/v1/products/${id}`)
 
     if (response.ok) {
-      let productsData: Product = await response.json()
+      const productsData: Product = await response.json()
       return dispatch(productDetailsSuccess(productsData))
     } else {
       dispatch(
@@ -194,7 +193,7 @@ export const createProduct = (product: NewProduct): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(`${baseUrl}/api/v1/products`, {
+    const response: any = await fetch('/api/v1/products', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -255,15 +254,12 @@ export const deleteProduct = (productId: string): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(
-      `${baseUrl}/api/v1/products/${productId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    )
+    const response: any = await fetch(`/api/v1/products/${productId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
 
     if (response.ok) {
       return dispatch(productDeleteSuccess())
@@ -325,17 +321,14 @@ export const updateProduct = (product: Product): AsyncAction => async (
 
     const { token } = userLogin.authedUser as User
 
-    const response: any = await fetch(
-      `${baseUrl}/api/v1/products/${product._id}`,
-      {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(product),
-      }
-    )
+    const response: any = await fetch(`/api/v1/products/${product._id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(product),
+    })
 
     if (response.ok) {
       const productData: Product = await response.json()

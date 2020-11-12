@@ -10,17 +10,17 @@ const ManageProduct = () => {
   const { authedUser } = useSelector((state: AppState) => state.userLogin)
 
   if (!authedUser || authedUser.role !== 'admin') {
-    return <Redirect to='/' />
+    return <Redirect to="/" />
   }
 
   return (
     <Container style={{ margin: '2em' }}>
-      <Link to='/create'>
+      <Link to="/create">
         <Button
-          icon='add square'
-          color='teal'
-          floated='right'
-          content='Create new product'
+          icon="add square"
+          color="teal"
+          floated="right"
+          content="Create new product"
         />
       </Link>
       <ProductList />

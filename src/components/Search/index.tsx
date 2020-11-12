@@ -47,6 +47,7 @@ const Search = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+    // FIXME: FIND BETTER SOLUTION
     let path = '?'
 
     if (name) {

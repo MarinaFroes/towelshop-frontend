@@ -138,13 +138,13 @@ const CreateProduct = () => {
   }
 
   if (!authedUser || authedUser.role !== 'admin') {
-    return <Redirect to='/' />
+    return <Redirect to="/" />
   }
 
   return (
     <Container style={{ margin: '2em' }}>
-      <Header as='h2' block>
-        <Icon name='edit' color='blue' />
+      <Header as="h2" block>
+        <Icon name="edit" color="blue" />
         Create new product
       </Header>
       <Form
@@ -153,99 +153,99 @@ const CreateProduct = () => {
         success={success}
         onSubmit={handleSubmit}
       >
-        {error && <Message error header='Oops!' content={error} />}
+        {error && <Message error header="Oops!" content={error} />}
         {success && (
           <Message
             success
-            icon='check'
-            header='Success!'
-            content='Your product has been posted'
+            icon="check"
+            header="Success!"
+            content="Your product has been posted"
           />
         )}
 
-        <Form.Group widths='equal'>
+        <Form.Group widths="equal">
           <Form.Field
             control={Input}
-            name='name'
-            label='Name'
-            placeholder='2-pack cotton towels'
+            name="name"
+            label="Name"
+            placeholder="2-pack cotton towels"
             value={product.name}
             onChange={handleChange}
           />
           <Form.Field
             control={Input}
-            name='variant'
-            label='Variant'
-            placeholder='white'
+            name="variant"
+            label="Variant"
+            placeholder="white"
             value={product.variant}
             onChange={handleChange}
           />
           <Form.Field
             control={Input}
-            name='categories'
-            label='Categories'
-            placeholder='accessory, utility'
+            name="categories"
+            label="Categories"
+            placeholder="accessory, utility"
             value={product.categories}
             onChange={handleChange}
           />
         </Form.Group>
-        <Form.Group widths='equal'>
+        <Form.Group widths="equal">
           <Form.Field
             control={Input}
-            name='price'
-            label='Price'
-            placeholder='20.00'
-            min='0.00'
-            step='0.01'
-            type='number'
+            name="price"
+            label="Price"
+            placeholder="20.00"
+            min="0.00"
+            step="0.01"
+            type="number"
             value={product.price}
             onChange={handleChange}
           />
           <Form.Field
             control={Input}
-            name='size'
-            label='Size'
-            placeholder='large'
+            name="size"
+            label="Size"
+            placeholder="large"
             value={product.size}
             onChange={handleChange}
           />
           <Form.Field
             control={Input}
-            name='countInStock'
-            label='Quantity'
-            placeholder='10'
-            min='1'
-            step='1'
-            type='number'
+            name="countInStock"
+            label="Quantity"
+            placeholder="10"
+            min="1"
+            step="1"
+            type="number"
             value={product.countInStock}
             onChange={handleChange}
           />
           <Form.Field
             control={Input}
-            name='media'
-            type='file'
-            label='Media'
-            accept='image/*'
-            content='Select Image'
+            name="media"
+            type="file"
+            label="Media"
+            accept="image/*"
+            content="Select Image"
             onChange={handleImageChange}
           />
         </Form.Group>
-        <Image src={mediaPreview} rounded centered size='small' />
+        <Image src={mediaPreview} rounded centered size="small" />
         <Form.Field
           control={TextArea}
-          name='description'
-          label='Description'
-          placeholder='Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+          name="description"
+          label="Description"
+          placeholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
           value={product.description}
           onChange={handleChange}
         />
         <Form.Field
           control={Button}
-          color='blue'
-          icon='pencil alternate'
-          content='Submit'
+          color="blue"
+          icon="pencil alternate"
+          content="Submit"
           disabled={disabled || loading || success}
-          type='submit'
+          type="submit"
         />
       </Form>
     </Container>
